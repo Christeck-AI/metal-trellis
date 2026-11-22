@@ -1,0 +1,57 @@
+Metal Trellis — attribution notices
+====================================
+
+This project is a fork of llama.cpp. The following components and prior work
+are credited here; each remains under its own license.
+
+llama.cpp / ggml
+----------------
+Copyright (c) 2023-2026 The ggml authors
+Licensed under the MIT License (see LICENSE).
+https://github.com/ggml-org/llama.cpp
+
+The fork is based on llama.cpp v1.0.0-era code (base commit b1b770d). All
+upstream code, including the ggml tensor library, the Metal backend, the
+conversion framework in conversion/ (except the EXL3-specific additions),
+and the bundled model vocabularies in models/, is the work of the ggml
+authors and contributors.
+
+ExLlamaV3 / EXL3 (Turboderp)
+----------------------------
+Copyright (c) Turboderp and ExLlamaV3 contributors
+Licensed under the MIT License.
+https://github.com/turboderp-org/exllamav3
+
+EXL3 is Turboderp's trellis quantization format and tooling. This fork reads
+EXL3 checkpoints and decodes the format on Metal; it does not include
+ExLlamaV3's quantizer. The EXL3 checkpoints used for development and
+measurement were quantized by Turboderp and are distributed under the
+licenses of their respective base models.
+
+QTIP
+----
+Trellis-coded quantization originates in the QTIP research line
+("QTIP: Quantization with Trellises and Incoherence Processing",
+Tseng et al.). The EXL3 format builds on that work.
+
+trellis-serve
+-------------
+The bit-exact EXL3 reference implementation vendored in conversion/exl3.py
+derives from the trellis-serve reference. It is included for conversion
+correctness and retains its original attribution in the file header.
+
+Metal Trellis modifications
+---------------------------
+Copyright (c) 2026 Christeck Lab
+Licensed under the MIT License (see LICENSE).
+
+The modifications in this fork — the EXL3 safetensors reader, the trellis
+decoder, the ggml trellis ops and Metal kernels, the Packed GGUF route, and
+the qwen35 / qwen35moe wiring — are the work of Christeck Lab, developed
+with measured verification (actas) at every step.
+
+Model weights
+-------------
+No model weights are distributed with this repository. Qwen3.5-35B-A3B and
+Qwen3.8-27B are models by Alibaba (Qwen), licensed under Apache License 2.0.
+EXL3 quantized packs are Turboderp's work under those licenses.
