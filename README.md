@@ -79,6 +79,10 @@ All numbers measured on the fork; methodology and raw actas live with the projec
 | Packed decode (fused GEMV v3) | 22.2 tok/s (from 13.9 baseline, +60%) |
 | Dense 27B | 2.70 tok/s, **100% token-identical** vs Q8_0 reference — the win is memory (11.6 GB packed), not speed |
 | Black-hole challenge | First trellis-rendered black hole on Apple Silicon (2026-11-21): geodesic integration, Doppler beaming, gravitational redshift — skeleton quality, works |
+| Code bench (CT-Bench-mini full, 60 tasks, hidden tests) | **75% (45/60)** — Qwen3.5-35B-A3B-PACKED2 via Metal Trellis, thinking on, seed 42, 61.2 min, 16.6 tok/s. TypeScript 31/38 · SQL 5/5 · C++ 5/7 · Java 2/4 · JavaScript 2/6 |
+| Code bench control — same bench on the unquantized base (Q8_0) | **73% (44/60)** — Qwen3.5-35B-A3B base Q8_0 via llama-metal fork, thinking on, seed 42, 8.6 min, 51.8 tok/s. C++ 7/7 · Java 3/4 · JS 1/6 · SQL 3/5 · TS 30/38. Delta vs PACKED2: −1 task (technical tie) |
+
+> CT-Bench-mini is Christeck's internal coding bench (hidden tests, product-only); scores are published, tasks are not. This run used thinking without a reasoning budget: 2 of 15 failures exhausted the 16384-token cap without delivering code.
 
 ## Limitations
 
@@ -119,3 +123,5 @@ expertos); el denso (Qwen3.8-27B) es investigación: correcto token a token, per
 El producto es el motor. La cuantización todavía se hace con ExLlamaV3 en CUDA; el
 codificador nativo para Mac es el siguiente paso del roadmap. Licencia MIT, con
 atribución a llama.cpp/ggml, Turboderp/ExLlamaV3, QTIP y trellis-serve.
+
+En el bench interno de código CT-Bench-mini (60 tareas, pruebas ocultas), el MoE PACKED2 vía Metal Trellis marcó 75% (45/60) en la M1 Max, con pensamiento activado, semilla 42, 61.2 minutos a 16.6 tok/s. La base sin cuantizar (Q8_0) marcó 73% (44/60) en 8.6 minutos a 51.8 tok/s: un empate técnico.
